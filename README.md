@@ -17,10 +17,10 @@ pip install -r requirements.txt
 
 
 # make fresh db
-rm filesystem.db
-$ sqlite3 salaries.db
-sqlite> .mode csv salaries
-sqlite> .import employee_chicago.csv salaries
+rm content.db
+$ sqlite3 content.db
+sqlite> .mode csv content
+sqlite> .import content.csv content
 ```
 
 ## run

@@ -14,8 +14,8 @@ def getListOfFiles(dirName):
     for entry in listOfFile:
         # Create full path
         fullPath = os.path.join(dirName, entry)
-        # If entry is a regular file then add it to the list
-        if os.path.isfile(fullPath):
+        # If entry is a regular file and if match extension then add it to the list
+        if os.path.isfile(fullPath) and entry.endswith(".mp4"):
             print("file found: ", fullPath)
             allFiles.append(entry)
     return allFiles
@@ -23,7 +23,7 @@ def getListOfFiles(dirName):
 
 def main():
 
-    dirName = '/home/ben/'
+    dirName = '/home/ben/test'
 
     # Get the list of all files in directory tree at given path
     listOfFiles = getListOfFiles(dirName)
