@@ -10,8 +10,8 @@ from flask_restful import Resource, Api
 from sqlalchemy import create_engine
 from json import dumps
 
-# Assuming salaries.db is in your app root folder
-e = create_engine('sqlite:///salaries.db')  # loads db into memory
+# Assuming content.db is in your app root folder
+e = create_engine('sqlite:///content.db')  # loads db into memory
 
 app = Flask(__name__)
 api = Api(
@@ -19,21 +19,21 @@ api = Api(
 )  # api is a collection of objects, where each object contains a specific functionality (GET, POST, etc)
 
 
-class Departments_Meta(Resource):
+class Filenames_Meta(Resource):
     def get(self):
         conn = e.connect()  # open connection to memory data
         query = conn.execute(
-            "select distinct DEPARTMENT from salaries")  # query
+            "select distinct FILENAME from content")  # query
         return {
-            'departments': [i[0] for i in query.cursor.fetchall()]
+            'filenames': [i[0] for i in query.cursor.fetchall()]
         }  # format results in dict format
 
 
 class Departmental_Salary(Resource):
-    def get(self, department_name):  # param is pulled from url string
+    def get(self, filename_name):  # param is pulled from url string
         conn = e.connect()
-        query = conn.execute("select * from salaries where Department='%s'" %
-                             department_name.upper())
+        query = conn.execute("select * from content where filename='%s'" %
+                             filename_name.upper())
         result = {
             'data': [dict(zip(tuple(query.keys()), i)) for i in query.cursor]
         }
@@ -47,9 +47,9 @@ class multiply(Resource):
 
 
 # once we've defined our api functionalities, add them to the master API object
-api.add_resource(Departments_Meta,
-                 '/departments')  # bind url identifier to class
-api.add_resource(Departmental_Salary, '/dept/<string:department_name>'
+api.add_resource(Filenames_Meta,
+                 '/filenames')  # bind url identifier to class
+api.add_resource(Departmental_Salary, '/dept/<string:filename_name>'
                  )  # bind url identifier to class; also make it querable
 api.add_resource(
     multiply,

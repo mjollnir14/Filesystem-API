@@ -1,8 +1,9 @@
-import os
 '''
     For the given path, get the List of all files in the directory tree 
 '''
 
+import os
+import csv
 
 def getListOfFiles(dirName):
     # create a list of file and sub directories
@@ -13,7 +14,7 @@ def getListOfFiles(dirName):
     for entry in listOfFile:
         # Create full path
         fullPath = os.path.join(dirName, entry)
-        # If entry is a file then add it to the list
+        # If entry is a regular file then add it to the list
         if os.path.isfile(fullPath):
             print("file found: ", fullPath)
             allFiles.append(entry)
@@ -30,6 +31,16 @@ def main():
     # Print the files
     for elem in listOfFiles:
         print(elem)
+
+    with open('content.csv', mode='w') as output_file:
+        content_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+        # Headers
+        content_writer.writerow(['filename', 'creation'])
+
+        # Data
+        for elem in listOfFiles:
+            content_writer.writerow([elem, '1970-01-01'])
 
 if __name__ == '__main__':
     main()
